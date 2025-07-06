@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { File, mockFiles } from "../lib/mock-data"
+import { mockFiles } from "../lib/mock-data"
 import { Folder, FileIcon, Upload, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "~/components/ui/button"
@@ -90,7 +90,7 @@ export default function GoogleDriveClone() {
                         {file.name}
                       </button>
                     ) : (
-                      <Link href={file.url || "#"} className="flex items-center text-gray-100 hover:text-blue-400">
+                      <Link href={file.url ?? "#"} className="flex items-center text-gray-100 hover:text-blue-400">
                         <FileIcon className="mr-3" size={20} />
                         {file.name}
                       </Link>
@@ -108,3 +108,4 @@ export default function GoogleDriveClone() {
   )
 }
 
+// ?? does works like this - If it values exists then it will use that value otherwise if it is nullish that is null or undefined then the second value is returned
