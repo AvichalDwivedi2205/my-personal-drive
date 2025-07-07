@@ -6,7 +6,7 @@ import { int, bigint, text, singlestoreTableCreator, index } from "drizzle-orm/s
 export const createTable = singlestoreTableCreator((name) => `drive-tutorial_${name}`)
 // This schema is followed so that we can have multiple projects in the same database with one prefix used for one single projects' tables
 
-export const files = createTable("files_table", {
+export const files_table = createTable("files_table", {
   id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
   name: text("name").notNull(),
   size: int("size").notNull(),
@@ -16,7 +16,7 @@ export const files = createTable("files_table", {
   return [index("parent_index").on(t.parent)];
 });
 
-export const folders = createTable("folders_table", {
+export const folders_table = createTable("folders_table", {
   id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
   name: text("name").notNull(),
   parent: bigint("parent", { mode: "number", unsigned: true }),
