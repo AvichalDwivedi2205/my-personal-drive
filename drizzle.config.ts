@@ -13,6 +13,6 @@ export default {
     database: env.SINGLESTORE_DB_NAME,
     ssl: {},
   },
-  tablesFilter: ["drive-tutorial_*"],
+  // tablesFilter: ["drive-tutorial_*"],
   // tablesFilter is used to filter the tables that are used in the database with the prefix mentioned in the schema
 } satisfies Config;
