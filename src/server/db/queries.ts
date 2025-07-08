@@ -7,7 +7,7 @@ import {
   type DB_FileType,
   type DB_FolderType,
 } from "~/server/db/schema";
-import { eq, asc } from "drizzle-orm";
+import { eq, asc, isNull, and } from "drizzle-orm";
 
 export const QUERIES = {
 
@@ -48,6 +48,17 @@ export const QUERIES = {
     getFolderById: async function (folderId:number){
         const folder = await db.select().from(foldersSchema).where(eq(foldersSchema.id, folderId));
         return folder[0];
+    },
+
+    getRootFolderForUser: async function (userId:string){
+        const folder = await db
+        .select()
+        .from(foldersSchema)
+        .where(and
+            (eq(foldersSchema.owner_id, userId), 
+            isNull(foldersSchema.parent)
+        ));
+        return folder[0];
     }
 }
 
@@ -69,5 +80,33 @@ export const MUTATIONS = {
             owner_id: input.userId
         }
     );
+    },
+
+    onboardUser: async function (userId:string){
+        const rootFolder = await db.insert(foldersSchema).values({
+            name: "root",
+            owner_id: userId,
+            parent: null
+        }).$returningId();
+
+        const rootFolderId = rootFolder[0]!.id;
+        await db.insert(foldersSchema).values([
+        {
+            name: "Your Mom's Pictures",
+            owner_id: userId,
+            parent: rootFolderId
+        },
+        {
+            name: "Images",
+            owner_id: userId,
+            parent: rootFolderId
+        },
+        {
+            name: "Documents",
+            owner_id: userId,
+            parent: rootFolderId
+        }
+    ]);
+        return rootFolderId;
     }
 }
