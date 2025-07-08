@@ -3,7 +3,9 @@ import "server-only";
 import { db } from "~/server/db";
 import { 
   files_table as filesSchema, 
-  folders_table as foldersSchema  
+  folders_table as foldersSchema,
+  type DB_FileType,
+  type DB_FolderType,
 } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
@@ -38,3 +40,20 @@ export const QUERIES = {
 
 // This page cannot be static because folderId is a dynamic parameter
 // and we need to fetch the files and folders for that folder
+
+export const MUTATIONS = {
+    createFile: async function (input: {file:{
+        name:string;
+        size:number;
+        url:string;
+    },
+    userId:string
+}) {
+     return await db.insert(filesSchema).values(
+        {
+            ...input.file,
+            parent: 1
+        }
+    );
+    }
+}

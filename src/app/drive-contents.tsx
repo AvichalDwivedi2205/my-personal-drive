@@ -9,6 +9,8 @@ import { FileRow, FolderRow } from "./file-row"
 import type { files_table, folders_table } from "~/server/db/schema"
 import Link from "next/link"
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { UploadButton } from "~/components/ui/uploadthing";
+import { useRouter } from "next/navigation";
 
 export default function DriveContents(props:{
     files:typeof files_table.$inferSelect[];
@@ -17,11 +19,7 @@ export default function DriveContents(props:{
     // infers from the actual definition in the table
 }) {
 
-  const breadcrumbs: unknown[]= []
-
-  const handleUpload = () => {
-    alert("Upload functionality would be implemented here")
-  }
+  const navigate = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
@@ -69,6 +67,26 @@ export default function DriveContents(props:{
               <FileRow file={file} key={file.id}/>
             ))}
           </ul>
+        </div>
+        
+        <div className="mt-6 flex justify-center">
+          <UploadButton 
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              navigate.refresh();
+            }}
+            onUploadError={(error) => {
+              alert(`ERROR! ${error.message}`);
+            }}
+            appearance={{
+              button: "bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl",
+              allowedContent: "text-gray-400 text-sm mt-2"
+            }}
+            content={{
+              button: "📁 Upload Files",
+              allowedContent: "Images up to 4MB"
+            }}
+          />
         </div>
       </div>
     </div>
