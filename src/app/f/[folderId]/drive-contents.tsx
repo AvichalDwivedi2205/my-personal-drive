@@ -2,7 +2,7 @@
 //Client side behaviour is something that happens after the page loads like useEffect, onClicks or any function where we expaect code to run on a user's device
 
 import { useState, useMemo } from "react"
-import { mockFiles, mockFolders } from "../lib/mock-data"
+import { mockFiles, mockFolders } from "../../../lib/mock-data"
 import { Upload, ChevronRight, Loader2, CheckCircle, AlertCircle } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { FileRow, FolderRow } from "./file-row"
@@ -151,7 +151,7 @@ export default function DriveContents(props:{
         
         <div className="mt-6 flex flex-col items-center space-y-4">
           <UploadButton 
-            endpoint="imageUploader"
+            endpoint="driveUploader"
             onUploadBegin={handleUploadBegin}
             onClientUploadComplete={handleUploadComplete}
             onUploadError={handleUploadError}
@@ -161,7 +161,7 @@ export default function DriveContents(props:{
             }}
             content={{
               button: getUploadButtonContent(),
-              allowedContent: uploadStatus === 'idle' ? "Images up to 4MB" : ""
+              allowedContent: uploadStatus === 'idle' ? "Files up to 1GB, 1000 files" : ""
             }}
             input={{
               folderId: props.currentFolderId,
