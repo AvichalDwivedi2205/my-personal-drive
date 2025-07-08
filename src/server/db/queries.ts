@@ -36,6 +36,11 @@ export const QUERIES = {
     getFolders: function (folderId:number){
     return db.select().from(foldersSchema).where(eq(foldersSchema.parent, folderId));
     },
+
+    getFolderById: async function (folderId:number){
+        const folder = await db.select().from(foldersSchema).where(eq(foldersSchema.id, folderId));
+        return folder[0];
+    }
 }
 
 // This page cannot be static because folderId is a dynamic parameter
@@ -46,13 +51,14 @@ export const MUTATIONS = {
         name:string;
         size:number;
         url:string;
+        parent:number
     },
     userId:string
 }) {
      return await db.insert(filesSchema).values(
         {
             ...input.file,
-            parent: 1
+            owner_id: input.userId
         }
     );
     }

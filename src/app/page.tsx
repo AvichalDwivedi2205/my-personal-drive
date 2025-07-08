@@ -1,3 +1,14 @@
+import { SignedOut, SignedIn, SignInButton, UserButton } from "@clerk/nextjs";
+
 export default async function GoogleDriveClone(){
-  return <div>{"This is google drive's project"}</div>
+  return <div>
+    <div>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </div>
+  </div>
 }

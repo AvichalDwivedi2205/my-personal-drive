@@ -17,7 +17,7 @@ export default async function GoogleDriveClone(props:{
   const parentsPromise = QUERIES.getAllParentsForFolder(parsedFolderId);
   const [files, folders, parents] = await Promise.all([filesPromise, foldersPromise, parentsPromise]);
 
-  return <DriveContents files={files} folders={folders} parents={parents} />
+  return <DriveContents files={files} folders={folders} parents={parents} currentFolderId={parsedFolderId} />
 }
 
 // This page cannot be static because folderId is a dynamic parameter
