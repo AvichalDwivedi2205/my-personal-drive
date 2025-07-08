@@ -7,7 +7,7 @@ import {
   type DB_FileType,
   type DB_FolderType,
 } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 
 export const QUERIES = {
 
@@ -30,11 +30,19 @@ export const QUERIES = {
 
 
     getFiles: function (folderId:number){
-    return db.select().from(filesSchema).where(eq(filesSchema.parent, folderId));
+    return db
+    .select()
+    .from(filesSchema)
+    .where(eq(filesSchema.parent, folderId))
+    .orderBy(asc(filesSchema.createdAt));
     },
 
     getFolders: function (folderId:number){
-    return db.select().from(foldersSchema).where(eq(foldersSchema.parent, folderId));
+    return db
+    .select()
+    .from(foldersSchema)
+    .where(eq(foldersSchema.parent, folderId))
+    .orderBy(asc(foldersSchema.createdAt));
     },
 
     getFolderById: async function (folderId:number){
